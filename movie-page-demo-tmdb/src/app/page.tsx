@@ -7,7 +7,7 @@ import { carouselConst } from "./components/carousel/carouselConst";
 
 export default function Home() {
   const carouselData = carouselConst;
-  const [peoplePageData, setPeoplePageData] = useState<MoviesRequest | null>(null);  
+  const [moviesData, setmoviesData] = useState<MoviesRequest | null>(null);  
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Home() {
         const data: MoviesRequest = await response.json();
 
         console.log(data);
-        setPeoplePageData(data);
+        setmoviesData(data);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -37,7 +37,8 @@ export default function Home() {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []); 
+  // Empty dependency array ensures this effect runs only once on mount
 
   return (<>
     {isLoading ? (
@@ -47,12 +48,12 @@ export default function Home() {
       ) : (
         <div>
       <WelcomeBanner />
-      <Carousel movies={peoplePageData?.results} />
-      {/* <>
+      {/* <Carousel movies={moviesData?.results} /> */}
+      <>
         {carouselData.map((carousel) => (
-          <Carousel key={carousel.category} pageTitle={carousel.title} />
+          <Carousel key={carousel.category} carouselData={carousel} />
         ))}
-      </> */}
+      </>
     </div>
       )}
     </>);
